@@ -25,7 +25,7 @@
 //=====================================================================
 //  Banc de test pour alu.v
 //
-//  Compilation et exécution :
+//  Compilation et exÃ©cution :
 //      iverilog -o alu_tb.out alu_tb.v alu.v
 //      vvp alu_tb.out
 //
@@ -35,7 +35,7 @@
 
 module alu_tb;
 
-    // ---- signaux reliés à l'ALU ----
+    // ---- signaux reliÃ©s Ã  l'ALU ----
     reg  [31:0] a;
     reg  [31:0] b;
     reg  [3:0]  alu_ctl;
@@ -44,7 +44,7 @@ module alu_tb;
 
     integer erreurs;
 
-    // ---- codes de commande, pour la lisibilité ----
+    // ---- codes de commande, pour la lisibilitÃ© ----
     localparam ALU_ADD  = 4'b0000;
     localparam ALU_SUB  = 4'b0001;
     localparam ALU_AND  = 4'b0010;
@@ -56,7 +56,7 @@ module alu_tb;
     localparam ALU_SLT  = 4'b1000;
     localparam ALU_SLTU = 4'b1001;
 
-    // ---- instanciation du module testé ----
+    // ---- instanciation du module testÃ© ----
     alu dut (
         .a        (a),
         .b        (b),
@@ -66,10 +66,10 @@ module alu_tb;
     );
 
     //-----------------------------------------------------------------
-    //  verifier : applique un vecteur et compare au résultat attendu
+    //  verifier : applique un vecteur et compare au rÃ©sultat attendu
     //-----------------------------------------------------------------
     task verifier;
-        input [39:0] nom;        // 5 caractères, complété par des espaces
+        input [39:0] nom;        // 5 caractÃ¨res, complÃ©tÃ© par des espaces
         input [31:0] va;
         input [31:0] vb;
         input [3:0]  ctrl;
@@ -90,7 +90,7 @@ module alu_tb;
     endtask
 
     //-----------------------------------------------------------------
-    //  verif_zero : contrôle le drapeau zéro
+    //  verif_zero : contrÃ´le le drapeau zÃ©ro
     //-----------------------------------------------------------------
     task verif_zero;
         input [31:0] va;
@@ -120,7 +120,7 @@ module alu_tb;
         $display("  Banc de test ALU");
         $display("=============================================");
 
-        // ---------- arithmétique ----------
+        // ---------- arithmÃ©tique ----------
         $display("");
         $display("-- add / sub --");
         verifier("add  ", 32'h0000_0005, 32'h0000_0003, ALU_ADD, 32'h0000_0008);
@@ -136,14 +136,14 @@ module alu_tb;
         verifier("or   ", 32'hF0F0_F0F0, 32'h0F0F_0F0F, ALU_OR,  32'hFFFF_FFFF);
         verifier("xor  ", 32'hFFFF_0000, 32'h00FF_FF00, ALU_XOR, 32'hFF00_FF00);
 
-        // ---------- décalages ----------
+        // ---------- dÃ©calages ----------
         $display("");
         $display("-- sll / srl / sra --");
         verifier("sll  ", 32'h0000_0005, 32'h0000_0002, ALU_SLL, 32'h0000_0014); // 5 << 2 = 20
         verifier("sll  ", 32'h0000_0001, 32'h0000_001F, ALU_SLL, 32'h8000_0000); // << 31
         verifier("sll  ", 32'h0000_0001, 32'h0000_0021, ALU_SLL, 32'h0000_0002); // 33 -> 1
         verifier("srl  ", 32'h8000_0000, 32'h0000_0004, ALU_SRL, 32'h0800_0000);
-        verifier("srl  ", 32'hFFFF_FFF8, 32'h0000_0001, ALU_SRL, 32'h7FFF_FFFC); // zéro en tête
+        verifier("srl  ", 32'hFFFF_FFF8, 32'h0000_0001, ALU_SRL, 32'h7FFF_FFFC); // zÃ©ro en tÃªte
         verifier("sra  ", 32'hFFFF_FFF8, 32'h0000_0001, ALU_SRA, 32'hFFFF_FFFC); // -8 >> 1 = -4
         verifier("sra  ", 32'hFFFF_FFFF, 32'h0000_000F, ALU_SRA, 32'hFFFF_FFFF); // -1 reste -1
         verifier("sra  ", 32'h0000_0010, 32'h0000_0002, ALU_SRA, 32'h0000_0004); // positif
@@ -154,11 +154,11 @@ module alu_tb;
         verifier("slt  ", 32'hFFFF_FFFF, 32'h0000_0005, ALU_SLT,  32'h0000_0001); // -1 < 5
         verifier("slt  ", 32'h0000_0005, 32'hFFFF_FFFF, ALU_SLT,  32'h0000_0000); // 5 < -1 faux
         verifier("slt  ", 32'h0000_0003, 32'h0000_0005, ALU_SLT,  32'h0000_0001);
-        verifier("slt  ", 32'h0000_0005, 32'h0000_0005, ALU_SLT,  32'h0000_0000); // égalité
-        verifier("sltu ", 32'hFFFF_FFFF, 32'h0000_0005, ALU_SLTU, 32'h0000_0000); // non signé
+        verifier("slt  ", 32'h0000_0005, 32'h0000_0005, ALU_SLT,  32'h0000_0000); // Ã©galitÃ©
+        verifier("sltu ", 32'hFFFF_FFFF, 32'h0000_0005, ALU_SLTU, 32'h0000_0000); // non signÃ©
         verifier("sltu ", 32'h0000_0003, 32'h0000_0005, ALU_SLTU, 32'h0000_0001);
 
-        // ---------- drapeau zéro ----------
+        // ---------- drapeau zÃ©ro ----------
         $display("");
         $display("-- drapeau zero --");
         verif_zero(32'h0000_0005, 32'h0000_0005, ALU_SUB, 1'b1); // 5-5 = 0
